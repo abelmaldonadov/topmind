@@ -1,6 +1,5 @@
 import {
     StyleSheet,
-    Text,
     View,
     ScrollView,
     Button,
@@ -8,17 +7,19 @@ import {
 } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import { useEffect, useState } from "react"
-import firebase from "../firebase/config"
 import { Avatar, ListItem } from "react-native-elements"
+import { db } from "../firebase/config"
+import { collection, getDocs, onSnapshot } from "firebase/firestore"
 
 export default function UserListScreen({ navigation }) {
     const [isLoading, setLoading] = useState(true)
     const [users, setUsers] = useState([])
 
-    useEffect(() => {
-        firebase.db.collection("users").onSnapshot((querySnapshot) => {
+    useEffect(async () => {
+        console.log("getting data")
+        await onSnapshot(collection(db, "users"), (snapshot) => {
             setUsers(
-                querySnapshot.docs.map((doc) => {
+                snapshot.docs.map((doc) => {
                     return { id: doc.id, ...doc.data() }
                 })
             )

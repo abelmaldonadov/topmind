@@ -1,8 +1,8 @@
-import UserListScreen from "./screens/UserListScreen"
 import { createStackNavigator } from "@react-navigation/stack"
-import UserDetailScreen from "./screens/UserDetailScreen"
-import CreateUserScreen from "./screens/CreateUserScreen"
 import { NavigationContainer } from "@react-navigation/native"
+import UserListScreen from "./src/screens/UserListScreen"
+import CreateUserScreen from "./src/screens/CreateUserScreen"
+import UserDetailScreen from "./src/screens/UserDetailScreen"
 
 const Stack = createStackNavigator()
 

@@ -8,7 +8,8 @@ import {
 } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import { useEffect, useState } from "react"
-import firebase from "../firebase/config"
+import { db } from "../firebase/config"
+import { doc, getDoc, deleteDoc, updateDoc } from "firebase/firestore"
 
 export default function UserDetailScreen({ navigation, route }) {
     const { userId } = route.params
@@ -20,28 +21,30 @@ export default function UserDetailScreen({ navigation, route }) {
         phone: "",
     })
 
-    useEffect(() => {
-        firebase.db
-            .collection("users")
-            .doc(userId)
-            .get()
-            .then((response) => response.data())
-            .then((data) => {
-                setUser(data)
-                setLoading(false)
-            })
-            .catch(() => Alert.alert("Error getting user"))
+    useEffect(async () => {
+        const docRef = doc(db, "users", userId)
+        const docSnap = await getDoc(docRef)
+        if (docSnap.exists()) {
+            console.log("Document data:", docSnap.data())
+            setUser(docSnap.data())
+        } else {
+            console.log("No such document!")
+            navigation.navigate("UserListScreen")
+        }
+        setLoading(false)
     }, [])
 
-    const updateUser = () => {
+    const updateUser = async () => {
         setLoading(true)
-        firebase.db
-            .collection("users")
-            .doc(userId)
-            .set(user)
-            .then((response) => navigation.navigate("UserListScreen"))
-            .catch(() => Alert.alert("Update error"))
-            .finally(() => setLoading(false))
+        try {
+            const docRef = doc(db, "users", userId)
+            await updateDoc(docRef, user)
+            navigation.navigate("UserListScreen")
+        } catch (e) {
+            Alert.alert("Update error")
+        } finally {
+            setLoading(false)
+        }
     }
     const confirmationDelete = () => {
         Alert.alert("Remove the user", "Are you sure?", [
@@ -51,13 +54,8 @@ export default function UserDetailScreen({ navigation, route }) {
     }
     const deleteUser = () => {
         setLoading(true)
-        firebase.db
-            .collection("users")
-            .doc(userId)
-            .delete()
-            .then((response) => {
-                navigation.navigate("UserListScreen")
-            })
+        deleteDoc(doc(db, "users", userId))
+            .then(() => navigation.navigate("UserListScreen"))
             .catch(() => Alert.alert("Error deleting"))
             .finally(() => setLoading(false))
     }

@@ -8,7 +8,8 @@ import {
 } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import { useState } from "react"
-import firebase from "../firebase/config"
+import { db } from "../firebase/config"
+import { collection, addDoc } from "firebase/firestore"
 
 export default function CreateUserScreen({ navigation }) {
     const [isLoading, setLoading] = useState(false)
@@ -18,15 +19,19 @@ export default function CreateUserScreen({ navigation }) {
         phone: "",
     })
 
-    const addNewUser = () => {
+    const addNewUser = async () => {
         if (user.name && user.email && user.phone) {
             setLoading(true)
-            firebase.db
-                .collection("users")
-                .add(user)
-                .then((response) => navigation.navigate("UserListScreen"))
-                .catch(() => Alert.alert("Save error"))
-                .finally(() => setLoading(false))
+            try {
+                const docRef = await addDoc(collection(db, "users"), user)
+                console.log("Document written with ID: ", docRef.id)
+                navigation.navigate("UserListScreen")
+            } catch (e) {
+                console.error("Error adding document: ", e)
+                Alert.alert("Save error")
+            } finally {
+                setLoading(false)
+            }
         } else {
             Alert.alert("Please provide all the fields")
         }
