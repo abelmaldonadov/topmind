@@ -8,7 +8,7 @@ import {
 } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import { useEffect, useState } from "react"
-import { db } from "../firebase/config"
+import { db } from "../../firebase/config"
 import { doc, getDoc, deleteDoc, updateDoc } from "firebase/firestore"
 
 export default function UserDetailScreen({ navigation, route }) {

@@ -8,7 +8,7 @@ import {
 } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import { useState } from "react"
-import { db } from "../firebase/config"
+import { db } from "../../firebase/config"
 import { collection, addDoc } from "firebase/firestore"
 
 export default function CreateUserScreen({ navigation }) {

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1093346272867",
+    "project_id": "topmind-eedd5",
+    "storage_bucket": "topmind-eedd5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093346272867:android:191a3bf063bf8f3fb1fa56",
+        "android_client_info": {
+          "package_name": "com.amaldonado.topmind"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1093346272867-ialrhvagej99qq2njeame8ooqf2g0uqv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHmIoMJw1nmSt-7Wxv5MpyBgDoT-XTu2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1093346272867-ialrhvagej99qq2njeame8ooqf2g0uqv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

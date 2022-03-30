@@ -8,31 +8,41 @@ import {
 import { StatusBar } from "expo-status-bar"
 import { useEffect, useState } from "react"
 import { Avatar, ListItem } from "react-native-elements"
-import { db } from "../firebase/config"
+import { db } from "../../firebase/config"
 import { collection, getDocs, onSnapshot } from "firebase/firestore"
+import Loader from "../../components/loader/Loader"
 
 export default function UserListScreen({ navigation }) {
     const [isLoading, setLoading] = useState(true)
     const [users, setUsers] = useState([])
 
-    useEffect(async () => {
-        console.log("getting data")
-        await onSnapshot(collection(db, "users"), (snapshot) => {
-            setUsers(
-                snapshot.docs.map((doc) => {
-                    return { id: doc.id, ...doc.data() }
-                })
-            )
-        })
-        setLoading(false)
+    useEffect(() => {
+        const getUsers = async () => {
+            console.log("getting data")
+            // const querySnapshot = await getDocs(collection(db, "users"))
+            // querySnapshot.forEach((doc) => {
+            //     setUsers(
+            //         querySnapshot.docs.map((doc) => {
+            //             return { id: doc.id, ...doc.data() }
+            //         })
+            //     )
+            // })
+            // setLoading(false)
+
+            await onSnapshot(collection(db, "users"), (querySnapshot) => {
+                setUsers(
+                    querySnapshot.docs.map((doc) => {
+                        return { id: doc.id, ...doc.data() }
+                    })
+                )
+            })
+            setLoading(false)
+        }
+        return getUsers()
     }, [])
 
     if (isLoading) {
-        return (
-            <View style={styles.container}>
-                <ActivityIndicator size="large" color="#9e9e9e" />
-            </View>
-        )
+        return <Loader />
     }
 
     return (
@@ -69,10 +79,4 @@ export default function UserListScreen({ navigation }) {
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-})
+const styles = StyleSheet.create({})
