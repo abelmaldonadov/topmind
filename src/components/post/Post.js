@@ -1,11 +1,13 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { StyleSheet, Text, TouchableOpacity } from "react-native"
 
-export default function Note({
+export default function Post({
     title,
     text,
     color,
     onPress,
     onLongPress,
+    avatar,
+    indications,
     height,
 }) {
     return (
@@ -19,15 +21,19 @@ export default function Note({
             onPress={onPress}
             onLongPress={onLongPress}
         >
+            {avatar}
             {title && (
                 <Text style={styles.title} numberOfLines={2}>
                     {title}
                 </Text>
             )}
             {text && (
-                <Text style={styles.text} numberOfLines={4}>
+                <Text style={styles.text} numberOfLines={10}>
                     {text}
                 </Text>
+            )}
+            {indications && (
+                <Text style={styles.indications}>{indications}</Text>
             )}
         </TouchableOpacity>
     )
@@ -36,7 +42,8 @@ export default function Note({
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#ffd111",
-        padding: 20,
+        paddingHorizontal: 40,
+        paddingVertical: 80,
         borderRadius: 10,
         marginBottom: 13,
         width: "100%",
@@ -55,6 +62,15 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "400",
         color: "rgba(0,0,0,0.5)",
+        textAlign: "center",
+    },
+    indications: {
+        position: "absolute",
+        bottom: 0,
+        padding: 20,
+        width: "100%",
+        color: "rgba(0,0,0,0.2)",
+        fontSize: 10,
         textAlign: "center",
     },
 })

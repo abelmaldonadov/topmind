@@ -1,5 +1,4 @@
 import { Alert, ScrollView, StyleSheet, View } from "react-native"
-import Note from "../../../components/note/Note"
 import Space from "../../../components/space/Space"
 import { useContext, useEffect, useState } from "react"
 import Loader from "../../../components/loader/Loader"
@@ -13,6 +12,7 @@ import {
 import { db } from "../../../firebase/config"
 import { UserContext } from "../../../contexts/UserContext"
 import Avatar from "../../../components/avatar/Avatar"
+import Post from "../../../components/post/Post"
 
 export default function ExploreScreen({ navigation }) {
     const [isLoading, setLoading] = useState(true)
@@ -79,7 +79,7 @@ export default function ExploreScreen({ navigation }) {
             <View style={styles.container}>
                 {notes.map((item, index) => (
                     <>
-                        <Note
+                        <Post
                             mod_block
                             key={item.id + item.userId}
                             color={item.color}

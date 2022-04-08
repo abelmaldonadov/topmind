@@ -14,6 +14,7 @@ import Space from "../../../components/space/Space"
 import { collection, query, where, onSnapshot } from "firebase/firestore"
 import { db } from "../../../firebase/config"
 import Loader from "../../../components/loader/Loader"
+import FAIcon from "react-native-vector-icons/FontAwesome"
 
 export default function NotebookScreen({ navigation }) {
     const [isLoading, setLoading] = useState(true)
@@ -60,17 +61,29 @@ export default function NotebookScreen({ navigation }) {
             </View>
             <View style={styles.container}>
                 {notes.map((item) => (
-                    <Note
-                        key={item.id}
-                        color={item.color}
-                        title={item.title}
-                        text={item.text}
-                        onPress={() =>
-                            navigation.navigate("ReadNoteScreen", {
-                                noteId: item.id,
-                            })
-                        }
-                    />
+                    <View style={styles.note}>
+                        <Note
+                            key={item.id}
+                            color={item.color}
+                            title={item.title}
+                            text={item.text}
+                            height="100%"
+                            onPress={() =>
+                                navigation.navigate("ReadNoteScreen", {
+                                    noteId: item.id,
+                                })
+                            }
+                        />
+                        {item.origin && (
+                            <View style={styles.icon}>
+                                <FAIcon
+                                    name="share"
+                                    size={15}
+                                    color="#000"
+                                ></FAIcon>
+                            </View>
+                        )}
+                    </View>
                 ))}
             </View>
 
@@ -100,5 +113,17 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         flexWrap: "wrap",
+    },
+    note: {
+        position: "relative",
+        width: "48%",
+        height: 160,
+        marginBottom: 15,
+    },
+    icon: {
+        position: "absolute",
+        top: 0,
+        right: 0,
+        padding: 15,
     },
 })
